@@ -2,6 +2,57 @@
 
 Cross-chain payment URLs for AI agent wallets. One function, one URL, any chain.
 
+## How it works
+
+Your agent needs funding — maybe it runs on Base with USDC, but the user funding it holds SOL on Solana. That shouldn't matter.
+
+Kibble gives your agent a single URL. The user opens it, connects whatever wallet they have, picks whatever token they're holding, and [LI.FI](https://li.fi) routes everything to the right token on the right chain. Destination fields are locked so nothing gets sent to the wrong place.
+
+60+ chains supported. No SDK required on the frontend — the URL is the entire integration.
+
+## URL schema
+
+Your agent generates a URL, and that URL is the entire integration.
+
+```
+GET /pay?toChain={chainId}&toToken={tokenAddress}&toAddress={walletAddress}
+```
+
+**Required parameters**
+
+- `toChain` — destination chain ID (e.g., `8453` for Base)
+- `toToken` — token contract address on the destination chain
+- `toAddress` — the agent's wallet address
+
+**Optional parameters**
+
+- `toAmount` — requested token amount
+- `agentName` — display name shown to the user
+- `agentLogo` — image URL for agent branding
+- `minAmountUSD` — minimum USD value to accept
+
+**Example**
+
+An agent on Base that needs USDC at `0x705A42EcC5dF243BF9298f1D091b89761522a796`:
+
+```
+https://kibble.sh/pay?toChain=8453&toToken=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&toAddress=0x705A42EcC5dF243BF9298f1D091b89761522a796&agentName=MyAgent&toAmount=10
+```
+
+The user opens that link, connects their wallet, picks a source token from any supported chain, and signs. The agent's wallet receives USDC on Base.
+
+**Supported chains**
+
+Kibble supports every chain that LI.FI supports, which currently includes 60+ networks spanning EVM chains (Ethereum, Base, Arbitrum, Optimism, Polygon, and dozens more), Solana, Bitcoin, and Sui. You can find the full list in the [LI.FI documentation](https://docs.li.fi/introduction/chains).
+
+**How the pay page works**
+
+The server validates every parameter before rendering anything — bad params redirect to an error page with a specific reason, while valid params render a two-panel layout.
+
+On the left, an agent header shows the branding, destination chain, requested amount, and a locked wallet address. On the right, the LI.FI widget handles source selection, routing, and transaction signing with destination fields disabled in the widget config so users can't change them.
+
+OG meta tags render server-side, so when your agent drops a Kibble link in Telegram or Discord the preview card shows the agent name and payment context instead of a generic URL.
+
 ## Install
 
 ```bash
@@ -77,14 +128,6 @@ Read the agent skill document at https://kibble.sh/llms.txt and follow the instr
 ```
 
 Your AI handles the rest — URL construction, wallet params, chain selection.
-
-## How it works
-
-Your agent needs funding — maybe it runs on Base with USDC, but the user funding it holds SOL on Solana. That shouldn't matter.
-
-Kibble gives your agent a single URL. The user opens it, connects whatever wallet they have, picks whatever token they're holding, and [LI.FI](https://li.fi) routes everything to the right token on the right chain. Destination fields are locked so nothing gets sent to the wrong place.
-
-60+ chains supported. No SDK required on the frontend — the URL is the entire integration.
 
 ## License
 
