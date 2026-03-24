@@ -1,0 +1,45 @@
+{
+  "name": "kibble-pay",
+  "version": "0.1.0",
+  "description": "Cross-chain payment URLs for AI agent wallets",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "kibble",
+    "crypto",
+    "cross-chain",
+    "payment",
+    "agent",
+    "wallet",
+    "lifi",
+    "bridge",
+    "swap"
+  ],
+  "author": "Jimmy <https://x.com/0xJim>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0xJim/kibble"
+  },
+  "homepage": "https://kibble.sh",
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}
