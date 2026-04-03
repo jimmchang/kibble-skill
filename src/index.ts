@@ -15,6 +15,12 @@ export interface KibbleParams {
   agentLogo?: string;
   /** Minimum transaction value in USD */
   minAmountUSD?: number;
+  /** Pre-select source chain ID (must be paired with fromToken) */
+  fromChain?: number;
+  /** Pre-select source token address (must be paired with fromChain) */
+  fromToken?: string;
+  /** Amount to send in source token units (requires fromChain + fromToken) */
+  fromAmount?: number | string;
 }
 
 /**
@@ -43,6 +49,11 @@ export function kibble(params: KibbleParams): string {
   if (params.toAmount !== undefined) url.searchParams.set("toAmount", String(params.toAmount));
   if (params.agentLogo) url.searchParams.set("agentLogo", params.agentLogo);
   if (params.minAmountUSD !== undefined) url.searchParams.set("minAmountUSD", String(params.minAmountUSD));
+  if (params.fromChain !== undefined && params.fromToken) {
+    url.searchParams.set("fromChain", String(params.fromChain));
+    url.searchParams.set("fromToken", params.fromToken);
+    if (params.fromAmount !== undefined) url.searchParams.set("fromAmount", String(params.fromAmount));
+  }
   return url.toString();
 }
 

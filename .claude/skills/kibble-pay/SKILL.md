@@ -15,6 +15,9 @@ https://kibble.sh/pay?toChain={chainId}&toToken={tokenAddress}&toAddress={wallet
                       &agentName={name}         # optional — display name shown in header
                       &agentLogo={imageUrl}     # optional — agent avatar URL
                       &minAmountUSD={number}    # optional — minimum in USD equiv
+                      &fromChain={chainId}      # optional — pre-select source chain
+                      &fromToken={tokenAddress} # optional — pre-select source token
+                      &fromAmount={amount}      # optional — amount to send from source
 ```
 
 ### Required Parameters
@@ -33,6 +36,11 @@ https://kibble.sh/pay?toChain={chainId}&toToken={tokenAddress}&toAddress={wallet
 | `agentName` | `string` | `TradingBot` | Display name shown in the page header |
 | `agentLogo` | `string` | `https://...` | Agent avatar image URL |
 | `minAmountUSD` | `number` | `10` | Minimum transaction value in USD |
+| `fromChain` | `number` | `1` | Pre-select the source chain (requires `fromToken`) |
+| `fromToken` | `string` | `0xA0b86991...` | Pre-select the source token (requires `fromChain`) |
+| `fromAmount` | `string` | `5` | Amount to send in source token units (requires `fromChain` + `fromToken`) |
+
+> **AI behavior:** `fromChain` and `fromToken` must ALWAYS be provided together. If the user specifies only a source chain (e.g. "I want to pay from Ethereum") but not a token, ask them which token they want to send. If they specify only a token but not a chain, ask which chain they're sending from. Never include just one without the other in the URL.
 
 ### Common Chain IDs
 
@@ -66,6 +74,9 @@ def request_funding(
     agent_name: str,
     amount: float | None = None,
     agent_logo: str | None = None,
+    from_chain: int | None = None,
+    from_token: str | None = None,
+    from_amount: float | None = None,
 ) -> str:
     params = {
         "toChain": chain_id,
@@ -77,6 +88,11 @@ def request_funding(
         params["toAmount"] = str(amount)
     if agent_logo:
         params["agentLogo"] = agent_logo
+    if from_chain is not None and from_token is not None:
+        params["fromChain"] = from_chain
+        params["fromToken"] = from_token
+        if from_amount is not None:
+            params["fromAmount"] = str(from_amount)
     return f"Fund me here: {KIBBLE_BASE}?{urlencode(params)}"
 
 # Example: Request 50 USDC on Base
@@ -102,6 +118,9 @@ interface KibbleParams {
   toAmount?: number;
   agentLogo?: string;
   minAmountUSD?: number;
+  fromChain?: number;
+  fromToken?: string;
+  fromAmount?: number | string;
 }
 
 function requestFunding(params: KibbleParams): string {
@@ -113,6 +132,11 @@ function requestFunding(params: KibbleParams): string {
   if (params.toAmount !== undefined) query.set("toAmount", String(params.toAmount));
   if (params.agentLogo) query.set("agentLogo", params.agentLogo);
   if (params.minAmountUSD !== undefined) query.set("minAmountUSD", String(params.minAmountUSD));
+  if (params.fromChain !== undefined && params.fromToken) {
+    query.set("fromChain", String(params.fromChain));
+    query.set("fromToken", params.fromToken);
+    if (params.fromAmount !== undefined) query.set("fromAmount", String(params.fromAmount));
+  }
   return `${KIBBLE_BASE}?${query.toString()}`;
 }
 
@@ -253,6 +277,9 @@ Read the agent skill document at https://kibble.sh/llms.txt and follow the instr
 
 # With minimum: "Send me at least $10 worth"
 /pay?toChain=42161&toToken=0xaf88d065e77c8cC2239327C5EDb3A432268e5831&toAddress=0x742d35...&minAmountUSD=10&agentName=YieldAgent
+
+# Pre-selected source: "Send 5 USDC from Ethereum, deliver USDC on Base"
+/pay?toChain=8453&toToken=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&toAddress=0x742d35...&fromChain=1&fromToken=0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48&fromAmount=5
 ```
 
 ## Common Token Addresses
