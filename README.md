@@ -30,6 +30,9 @@ GET /pay?toChain={chainId}&toToken={tokenAddress}&toAddress={walletAddress}
 - `agentName` — display name shown to the user
 - `agentLogo` — image URL for agent branding
 - `minAmountUSD` — minimum USD value to accept
+- `fromChain` — pre-select the source chain (must be paired with `fromToken`)
+- `fromToken` — pre-select the source token (must be paired with `fromChain`)
+- `fromAmount` — amount to send in source token units (requires `fromChain` + `fromToken`)
 
 **Example**
 
@@ -75,6 +78,17 @@ const url = kibble({
 // Send this URL to your user — they open it, connect any wallet,
 // pick any source token, and LI.FI routes everything to Base USDC.
 console.log(url);
+
+// Pre-select the source: "Send 5 USDC from Ethereum to Base"
+const directUrl = kibble({
+  toChain: 8453,
+  toToken: USDC[8453],
+  toAddress: "0x742d35Cc6634C0532925a3b844Bc9e7595f2bD68",
+  agentName: "TradingBot",
+  fromChain: 1,
+  fromToken: USDC[1],
+  fromAmount: 5,
+});
 ```
 
 ## API
@@ -92,6 +106,9 @@ Builds a [Kibble](https://kibble.sh) payment URL.
 | `toAmount` | `number \| string` | no | Fixed amount in destination token units |
 | `agentLogo` | `string` | no | Agent avatar image URL |
 | `minAmountUSD` | `number` | no | Minimum transaction value in USD |
+| `fromChain` | `number` | no | Pre-select source chain ID (must pair with `fromToken`) |
+| `fromToken` | `string` | no | Pre-select source token address (must pair with `fromChain`) |
+| `fromAmount` | `number \| string` | no | Amount to send in source token units |
 
 ### Token helpers
 
