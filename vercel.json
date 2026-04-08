@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "destination": "https://v1.kibble.sh/:path*",
+      "permanent": true
+    }
+  ]
+}
