@@ -131,7 +131,7 @@ USDT[1]     // Ethereum USDT
 ### Claude Code
 
 ```bash
-npx skills add 0xJim/kibble
+npx skills add jimmchang/kibble-skill
 ```
 
 Then use `/kibble-pay` in Claude Code to generate payment links.
@@ -152,4 +152,4 @@ MIT
 
 ## Built by
 
-[Jimmy](https://x.com/0xJim) — [v1.kibble.sh](https://v1.kibble.sh)
+[Jimmy](https://x.com/jimchang) — [v1.kibble.sh](https://v1.kibble.sh)

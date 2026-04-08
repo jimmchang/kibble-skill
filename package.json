@@ -1,6 +1,6 @@
 {
   "name": "kibble-pay",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Cross-chain payment URLs for AI agent wallets",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -35,7 +35,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/0xJim/kibble"
+    "url": "https://github.com/jimmchang/kibble"
   },
   "homepage": "https://v1.kibble.sh",
   "devDependencies": {
