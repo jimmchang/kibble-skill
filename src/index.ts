@@ -1,4 +1,4 @@
-const KIBBLE_BASE = "https://kibble.sh/pay";
+const KIBBLE_BASE = "https://v1.kibble.sh/pay";
 
 export interface KibbleParams {
   /** Destination chain ID (e.g., 8453 for Base) */

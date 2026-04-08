@@ -37,7 +37,7 @@
     "type": "git",
     "url": "https://github.com/0xJim/kibble"
   },
-  "homepage": "https://kibble.sh",
+  "homepage": "https://v1.kibble.sh",
   "devDependencies": {
     "tsup": "^8.0.0",
     "typescript": "^5.0.0"

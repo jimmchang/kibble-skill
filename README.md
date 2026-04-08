@@ -39,7 +39,7 @@ GET /pay?toChain={chainId}&toToken={tokenAddress}&toAddress={walletAddress}
 An agent on Base that needs USDC at `0x705A42EcC5dF243BF9298f1D091b89761522a796`:
 
 ```
-https://kibble.sh/pay?toChain=8453&toToken=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&toAddress=0x705A42EcC5dF243BF9298f1D091b89761522a796&agentName=MyAgent&toAmount=10
+https://v1.kibble.sh/pay?toChain=8453&toToken=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&toAddress=0x705A42EcC5dF243BF9298f1D091b89761522a796&agentName=MyAgent&toAmount=10
 ```
 
 The user opens that link, connects their wallet, picks a source token from any supported chain, and signs. The agent's wallet receives USDC on Base.
@@ -95,7 +95,7 @@ const directUrl = kibble({
 
 ### `kibble(params): string`
 
-Builds a [Kibble](https://kibble.sh) payment URL.
+Builds a [Kibble](https://v1.kibble.sh) payment URL.
 
 | Param | Type | Required | Description |
 |---|---|---|---|
@@ -141,7 +141,7 @@ Then use `/kibble-pay` in Claude Code to generate payment links.
 Tell your AI:
 
 ```
-Read the agent skill document at https://kibble.sh/llms.txt and follow the instructions. Help me set up a payment link for my agent.
+Read the agent skill document at https://v1.kibble.sh/llms.txt and follow the instructions. Help me set up a payment link for my agent.
 ```
 
 Your AI handles the rest — URL construction, wallet params, chain selection.
@@ -152,4 +152,4 @@ MIT
 
 ## Built by
 
-[Jimmy](https://x.com/0xJim) — [kibble.sh](https://kibble.sh)
+[Jimmy](https://x.com/0xJim) — [v1.kibble.sh](https://v1.kibble.sh)
